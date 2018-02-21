@@ -1,0 +1,22 @@
+{
+  "name": "mongodb-login",
+  "version": "1.0.0",
+  "description": "login/signup",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kibaru/mongodb-login.git"
+  },
+  "author": "Simon Kibaru",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kibaru/mongodb-login/issues"
+  },
+  "homepage": "https://github.com/Kibaru/mongodb-login#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
