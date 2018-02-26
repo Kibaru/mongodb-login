@@ -1,6 +1,7 @@
 const express = require ('express');
 const router = express.Router();
-const bcrypt =require ('bcryptjs');
+const bcrypt = require('bcryptjs');
+const passport = require('passport');
 
 //Bring in User models
 let User = require('../models/user');
@@ -32,7 +33,7 @@ router.post('/register', function(req, res){
     });
   }
   else {
-    let user = new User({
+    let newUser = new User({
       name:name,
       email:email,
       username:username,
@@ -40,12 +41,12 @@ router.post('/register', function(req, res){
     });
 
     bcrypt.genSalt(10, function(err, salt){
-      bcrypt.hash(user.password, salt, function(err, hash){
+      bcrypt.hash(newUser.password, salt, function(err, hash){
         if(err){
           console.log(err);
         }
-          user.password = hash;
-          user.save(function(err){
+          newUser.password = hash;
+          newUser.save(function(err){
             if(err){
               console.log(err);
               return;
@@ -62,6 +63,22 @@ router.post('/register', function(req, res){
 //Login form
 router.get('/login', function(req, res){
   res.render('login');
+});
+
+//Login Process
+router.post('/login', function(req, res, next){
+  passport.authenticate('local', {
+    successRedirect:'/',
+    failureRedirect:'/users/login',
+    failureFlash: true
+  })(req, res, next);
+});
+
+//Logout
+router.get('/logout', function(req, res){
+  req.logout();
+  req.flash('success', 'You are logged out');
+  res.redirect('/users/login');
 });
 
 module.exports = router;
